@@ -14,10 +14,13 @@ namespace BaseProject.WebUI
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+
+            #region Db Context 
             builder.Services.AddDbContext<AppIdentityDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+               options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
+            #endregion
+            #region Identity
             builder.Services.AddIdentity<AppUser, AppRole>(
                 opt =>
                 {
@@ -32,11 +35,11 @@ namespace BaseProject.WebUI
 
             builder.Services.ConfigureApplicationCookie(opt => {
                 opt.LoginPath = "/Home/Login";
-                }
+            }
 
             );
-
-            // add default admin user and role
+            #endregion
+            #region Default Admin And Users
             using (var scope = builder.Services.BuildServiceProvider().CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<AppIdentityDbContext>();
@@ -51,6 +54,8 @@ namespace BaseProject.WebUI
                 await DatabaseCustomHelpers.EnsureDefaultUsersExists(userManager);
 
             }
+            #endregion
+
 
 
 
