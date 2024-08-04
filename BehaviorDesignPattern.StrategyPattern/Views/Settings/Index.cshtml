@@ -1,0 +1,20 @@
+﻿@using BehaviorDesignPattern.StrategyPattern.Models
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BehaviorDesignPattern.StrategyPattern.Models.Settings
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+
+<div class="container">
+    <h2>Settings</h2>
+    <form asp-action="ChangeDatabase" asp-controller="Settings" method="post">
+        <div class="form-group">
+            <label asp-for="DatabaseType"></label>
+            <select asp-for="@Model.DatabaseType" asp-items="Html.GetEnumSelectList<DatabaseType>()" class="form-control">
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
